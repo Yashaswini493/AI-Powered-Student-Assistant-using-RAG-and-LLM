@@ -32,6 +32,19 @@ def apply_page_style(feature_index=None):
         4: ("#FFDCE5", "#D81B60"),  # Blush Pink
         5: ("#FFF2D9", "#F09300")   # Pastel Yellow
     }
+
+    hide_streamlit_style = """
+    <style>
+    /* Hide Streamlit footer */
+    footer {visibility: hidden;}
+    /* Hide hamburger menu */
+    #MainMenu {visibility: hidden;}
+    /* Hide top-right user info */
+    header {visibility: hidden;}
+    </style>
+    """
+
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     
     # Base CSS injection
     st.markdown(FEATURE_CARDS_CSS, unsafe_allow_html=True)
@@ -1153,3 +1166,4 @@ with tabs[5]:
 
         else:
             st.warning("Please upload and process a PDF first.")
+
