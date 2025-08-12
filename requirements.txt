@@ -6,3 +6,5 @@ python-dotenv
 sentence-transformers
 reportlab
 PyMuPDF
+faiss-cpu==1.11.0.post1
+
