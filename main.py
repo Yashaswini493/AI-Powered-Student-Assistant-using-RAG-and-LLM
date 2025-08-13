@@ -747,6 +747,12 @@ with tabs[2]:
 with tabs[3]:
     container = st.container()
     with container:
+        if 'text' not in st.session_state:
+            st.session_state.text = None
+        if 'mcqs' not in st.session_state:
+            st.session_state.mcqs = None
+        if 'user_answers' not in st.session_state:
+            st.session_state.user_answers = None
         # Header with clear all option
         col1, col2 = st.columns([0.9, 0.05])
         with col1:
@@ -761,11 +767,9 @@ with tabs[3]:
         st.info("Generate multiple-choice questions from your PDF.")
 
         # Only show the form if PDF text exists
-        # Only show the form if PDF text exists
-        if 'text' in st.session_state and st.session_state.text:
+        if st.session_state.text:
             # Display history/questions section above the form
-            
-            if 'mcqs' in st.session_state and st.session_state.mcqs:
+            if st.session_state.get("mcqs"):
                 st.subheader("📝 Answer the questions:")
                 
                 # Add custom styling for questions and buttons
@@ -956,6 +960,7 @@ with tabs[3]:
                 submit_button = st.form_submit_button("Generate MCQs")
             
                 if submit_button:
+                    # Only generate new MCQs if the form is submitted
                     with st.spinner("Creating MCQs..."):
                         mcq_list = mcq_generator.generate_mcqs(
                             st.session_state.text,
@@ -971,8 +976,6 @@ with tabs[3]:
                             st.session_state.user_answers = [None] * len(mcq_list)
                             st.success(f"✅ Generated {len(mcq_list)} MCQs for {target}!")
                             st.rerun()
-                        else:
-                            st.error("Failed to generate MCQs. Please try again.")
         else:
             st.warning("Please upload and process a PDF first to generate MCQs.")
             
@@ -1166,4 +1169,5 @@ with tabs[5]:
 
         else:
             st.warning("Please upload and process a PDF first.")
+
 
